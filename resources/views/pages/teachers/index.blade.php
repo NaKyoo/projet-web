@@ -99,8 +99,32 @@
                     </h3>
                 </div>
                 <div class="card-body flex flex-col gap-5">
-                    Formulaire à créer
-                    <!-- @todo A compléter -->
+                    <!-- Formulaire d'ajout et de suppression d'enseignant -->
+                    <form method="POST" action="{{ route('teacher.store') }}">
+                        @csrf
+
+                        <div class="card-body flex flex-col gap-5">
+
+                            <x-forms.input name="last_name" :label="__('Nom')" :messages="$errors->get('last_name')"/>
+
+                            <x-forms.input name="first_name" :label="__('Prénom')" :messages="$errors->get('first_name')" />
+
+                            <x-forms.input type="date" name="birth_date" :label="__('Date de naissance')" placeholder="" :messages="$errors->get('email')" />
+
+                            <x-forms.input type="email" name="email" :label="__('Email')" :messages="$errors->get('email')" />
+
+                            <x-forms.dropdown name="school_id" label="Choisissez une école" :messages="$errors->get('school_id')">
+                                @foreach($schools as $id => $name)
+                                    <option value="{{ $id }}" @selected(old('school_id') == $id)>{{ $name }}</option>
+                                @endforeach
+                            </x-forms.dropdown>
+
+
+                            <x-forms.primary-button>
+                                {{ __('Valider') }}
+                            </x-forms.primary-button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

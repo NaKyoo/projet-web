@@ -29,10 +29,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/cohort/{cohort}', [CohortController::class, 'show'])->name('cohort.show');
 
         // Teachers
+        Route::post('/teachers', [TeacherController::class, 'store'])->name('teacher.store');
         Route::get('/teachers', [TeacherController::class, 'index'])->name('teacher.index');
 
         // Students
-        Route::get('students', [StudentController::class, 'index'])->name('student.index');
+        Route::post('/students', [StudentController::class, 'store'])->name('student.store');
+        Route::get('/students', [StudentController::class, 'index'])->name('student.index');
 
         // Knowledge
         Route::get('knowledge', [KnowledgeController::class, 'index'])->name('knowledge.index');

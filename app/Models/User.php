@@ -23,6 +23,7 @@ class User extends Authenticatable
     protected $fillable = [
         'last_name',
         'first_name',
+        'birth_date',
         'email',
         'password',
     ];
@@ -76,7 +77,7 @@ class User extends Authenticatable
      * @return (Model&object)|null
      */
     public function school() {
-        // With this, the user can only have 1 school
+        // With this, the user can only have many school
         return $this->belongsToMany(School::class, 'users_schools')
             ->withPivot('role')
             ->first();
