@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\User;
 use App\Models\School;
 use App\Models\UserSchool;
@@ -64,7 +63,7 @@ class StudentController extends Controller
     {
         $student = User::findOrFail($id);
 
-        // On récupère la ligne du pivot manuellement
+        // On récupère la ligne manuellement
         $school = \DB::table('users_schools')
             ->where('user_id', $student->id)
             ->where('role', 'student')
@@ -87,7 +86,7 @@ class StudentController extends Controller
 
     public function update(Request $request, $id)
     {
-
+        // Vérification des infos
         $validated = $request->validate([
             'last_name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
