@@ -20,6 +20,8 @@ class TeacherController extends Controller
     // Fonction pour créer un utilisateur dans la base de donnée
     public function store(Request $request)
     {
+        $this->authorize('create', new User());
+
         // Validation des données
         $validatedData = $request->validate([
             'last_name' => 'required|string|max:255',

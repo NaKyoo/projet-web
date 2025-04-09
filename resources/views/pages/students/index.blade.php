@@ -47,6 +47,30 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach($students as $student)
+                                            <tr>
+                                                <td>{{ $student->last_name }}</td>
+                                                <td>{{ $student->first_name }}</td>
+                                                <td>{{ $student->birth_date }}</td>
+                                                <td>
+                                                    <div class="flex items-center justify-between">
+                                                        <a href="#">
+                                                            <i class="text-success ki-filled ki-shield-tick"></i>
+                                                        </a>
+                                                        <a class="hover:text-primary cursor-pointer" href="#" data-modal-toggle="#student-modal">
+                                                            <i class="ki-filled ki-cursor"></i>
+                                                        </a>
+                                                        <form action="{{ route('student.destroy', $student->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet étudiant ?')">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="text-danger">
+                                                                <i class="ki-filled ki-shield-cross"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                         <tr>
                                             <td>Doe</td>
                                             <td>John</td>
