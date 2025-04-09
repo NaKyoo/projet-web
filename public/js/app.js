@@ -10439,11 +10439,14 @@ process.umask = function() { return 0; };
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _bootstrap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
-/* harmony import */ var alpinejs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/module.esm.js");
+/* harmony import */ var _script__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./script */ "./resources/js/script.js");
+/* harmony import */ var _script__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_script__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var alpinejs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/module.esm.js");
 
 
-window.Alpine = alpinejs__WEBPACK_IMPORTED_MODULE_1__["default"];
-alpinejs__WEBPACK_IMPORTED_MODULE_1__["default"].start();
+
+window.Alpine = alpinejs__WEBPACK_IMPORTED_MODULE_2__["default"];
+alpinejs__WEBPACK_IMPORTED_MODULE_2__["default"].start();
 
 /***/ }),
 
@@ -10459,6 +10462,82 @@ __webpack_require__.r(__webpack_exports__);
 
 window.axios = axios__WEBPACK_IMPORTED_MODULE_0__["default"];
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+/***/ }),
+
+/***/ "./resources/js/script.js":
+/*!********************************!*\
+  !*** ./resources/js/script.js ***!
+  \********************************/
+/***/ (() => {
+
+document.addEventListener('DOMContentLoaded', function () {
+  var form = document.querySelector('form');
+  var submitButton = form.querySelector('x-forms.primary-button');
+
+  // Empêche la soumission par défaut du formulaire
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // Affiche le bouton comme désactivé pour éviter une double soumission
+    submitButton.disabled = true;
+    submitButton.innerHTML = "Enregistrement..."; // Change le texte pour informer l'utilisateur
+
+    // Crée un FormData pour envoyer les données du formulaire
+    var formData = new FormData(form);
+
+    // Envoie les données via AJAX (PUT)
+    fetch(form.action, {
+      method: 'PUT',
+      headers: {
+        'X-CSRF-TOKEN': form.querySelector('input[name="_token"]').value
+      },
+      body: formData
+    }).then(function (response) {
+      if (!response.ok) {
+        throw new Error('La mise à jour a échoué.');
+      }
+      return response.json();
+    }).then(function (data) {
+      // Traitement en cas de succès
+      if (data.success) {
+        // Ici tu peux faire des actions comme fermer la modal, rafraîchir la liste, etc.
+        alert("Les modifications ont été enregistrées avec succès.");
+        location.reload(); // ou fermeture de la modal et rafraîchissement partiel
+      } else {
+        // Affichage des erreurs si la validation échoue
+        displayErrors(data.errors);
+        submitButton.disabled = false;
+        submitButton.innerHTML = "Enregistrer les modifications"; // Remet le texte
+      }
+    })["catch"](function (error) {
+      console.error(error);
+      alert("Une erreur est survenue. Veuillez réessayer.");
+      submitButton.disabled = false;
+      submitButton.innerHTML = "Enregistrer les modifications";
+    });
+  });
+
+  // Fonction pour afficher les erreurs de validation dans la modal
+  function displayErrors(errors) {
+    // Supprimer les anciennes erreurs
+    var errorMessages = document.querySelectorAll('.error-message');
+    errorMessages.forEach(function (error) {
+      return error.remove();
+    });
+
+    // Ajouter les erreurs dans les champs
+    for (var field in errors) {
+      var inputField = form.querySelector("[name=\"".concat(field, "\"]"));
+      if (inputField) {
+        var errorDiv = document.createElement('div');
+        errorDiv.classList.add('error-message', 'text-red-600', 'mt-1');
+        errorDiv.innerHTML = errors[field].join('<br/>');
+        inputField.parentElement.appendChild(errorDiv);
+      }
+    }
+  }
+});
 
 /***/ }),
 
@@ -10534,6 +10613,18 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
 /******/ 		};
 /******/ 	})();
 /******/ 	

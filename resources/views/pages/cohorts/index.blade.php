@@ -42,7 +42,41 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                        @foreach($cohorts as $cohort)
+                                            <tr>
+                                                <td>
+                                                    <div class="flex flex-col gap-2">
+                                                        <a class="leading-none font-medium text-sm text-gray-900 hover:text-primary"
+                                                           href="{{ route('cohort.show', $cohort->id) }}">
+                                                            {{ $cohort->name }}
+                                                        </a>
+                                                        <span class="text-2sm text-gray-700 font-normal leading-3">
+                                                            {{ $cohort->school->name }}
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    {{ \Carbon\Carbon::parse($cohort->start_date)->format('Y') }} - {{ \Carbon\Carbon::parse($cohort->end_date)->format('Y') }}
+                                                </td>
+                                                <td>12</td>
+
+                                                <td>
+                                                    <a class="hover:text-primary cursor-pointer" href="#" data-modal-toggle="#cohort-modal">
+                                                        <i class="ki-filled ki-cursor"></i>
+                                                    </a>
+
+
+                                                    <form action="{{ route('cohort.destroy', $cohort->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette promotion ?');">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="text-danger">
+                                                            <i class="ki-filled ki-shield-cross"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    <tr>
                                         <td>
                                             <div class="flex flex-col gap-2">
                                                 <a class="leading-none font-medium text-sm text-gray-900 hover:text-primary"
@@ -84,20 +118,33 @@
                     </h3>
                 </div>
                 <div class="card-body flex flex-col gap-5">
-                    <x-forms.input name="name" :label="__('Nom')" />
+                    <form method="POST" action="{{ route('cohort.store') }}">
+                        @csrf
 
-                    <x-forms.input name="description" :label="__('Description')" />
+                        <x-forms.input name="name" :label="__('Nom')" required />
 
-                    <x-forms.input type="date" name="year" :label="__('Début de l\'année')" placeholder="" />
+                        <x-forms.input name="description" :label="__('Description')" required />
 
-                    <x-forms.input type="date" name="year" :label="__('Fin de l\'année')" placeholder="" />
+                        <x-forms.input type="date" name="start_date" :label="__('Début de l\'année')" required />
 
-                    <x-forms.primary-button>
-                        {{ __('Valider') }}
-                    </x-forms.primary-button>
+                        <x-forms.input type="date" name="end_date" :label="__('Fin de l\'année')" required />
+
+                        <x-forms.dropdown name="school_id" label="Choisissez une école" :messages="$errors->get('school_id')">
+                            <option value="">{{ __('Sélectionnez une école') }}</option>
+                            @foreach($schools as $id => $name)
+                                <option value="{{ $id }}" @selected(old('school_id') == $id)>{{ $name }}</option>
+                            @endforeach
+                        </x-forms.dropdown>
+
+                        <x-forms.primary-button>
+                            {{ __('Valider') }}
+                        </x-forms.primary-button>
+                    </form>
                 </div>
+
             </div>
         </div>
     </div>
     <!-- end: grid -->
 </x-app-layout>
+@include('pages.cohorts.cohort-modal')
