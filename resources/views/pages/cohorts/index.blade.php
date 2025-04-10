@@ -61,10 +61,9 @@
                                                 <td>12</td>
 
                                                 <td>
-                                                    <a class="hover:text-primary cursor-pointer" href="#" data-modal-toggle="#cohort-modal">
+                                                    <a class="hover:text-primary cursor-pointer" href="#" data-modal-toggle="#cohort-modal" data-cohort-id="{{ $cohort->id }}">
                                                         <i class="ki-filled ki-cursor"></i>
                                                     </a>
-
 
                                                     <form action="{{ route('cohort.destroy', $cohort->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette promotion ?');">
                                                         @csrf

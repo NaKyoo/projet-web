@@ -18,8 +18,7 @@ class Cohort extends Model
     }
 
     // Liaison avec les étudiants
-    public function students()
-    {
-        return $this->hasMany(User::class);
+    public function students() {
+        return $this->belongsToMany(User::class, 'cohort_student', 'cohort_id', 'user_id')->withTimestamps();
     }
 }

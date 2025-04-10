@@ -64,5 +64,7 @@ class DatabaseSeeder extends Seeder
             'school_id' => $school->id,
             'role'      => 'student'
         ]);
+
+
     }
 }

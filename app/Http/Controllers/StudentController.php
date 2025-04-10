@@ -43,6 +43,7 @@ class StudentController extends Controller
 
         ]);
 
+
         // Hachage du mdp
         $validatedData['password'] = Hash::make(Str::random(6));
 
