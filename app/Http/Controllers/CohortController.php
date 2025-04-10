@@ -37,9 +37,6 @@ class CohortController extends Controller
      */
     public function show(Cohort $cohort) {
 
-
-
-
         return view('pages.cohorts.show', [
             'cohort' => $cohort
         ]);
@@ -78,6 +75,7 @@ class CohortController extends Controller
     {
         // Trouver l'ID
         $cohort = Cohort::find($id);
+
 
         // Validation
         $validatedData = $request->validate([
