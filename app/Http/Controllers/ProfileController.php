@@ -80,11 +80,13 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        // Validation de la case cochée + le mdp
         $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
+            'confirm_delete' => ['accepted'],
         ]);
 
         $user = $request->user();
+
 
         Auth::logout();
 
@@ -93,6 +95,7 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        return Redirect::to('/')->with('status', 'Votre compte a été supprimé avec succès.');
     }
+
 }

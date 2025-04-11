@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
         // Create the default user
         $admin = User::create([
             'last_name'     => 'Admin',
