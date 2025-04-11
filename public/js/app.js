@@ -10474,6 +10474,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 document.addEventListener('DOMContentLoaded', function () {
   var studentButtons = document.querySelectorAll('[data-modal-toggle="#student-modal"]');
   var teacherButtons = document.querySelectorAll('[data-modal-toggle="#teacher-modal"]');
+  var cohortButtons = document.querySelectorAll('[data-modal-toggle="#cohort-modal"]');
   studentButtons.forEach(function (studentButton) {
     studentButton.addEventListener('click', function () {
       var url = this.getAttribute('data-student');
@@ -10492,6 +10493,21 @@ document.addEventListener('DOMContentLoaded', function () {
     teacherButton.addEventListener('click', function () {
       var url = this.getAttribute('data-teacher');
       var modalBody = document.querySelector('#teacher-modal .modal-body');
+      modalBody.innerHTML = "Chargement...";
+
+      // Requete Ajax GET avec l'URL récupéré
+      fetch(url).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        modalBody.innerHTML = data.html;
+      });
+    });
+  });
+  cohortButtons.forEach(function (cohortButton) {
+    cohortButton.addEventListener('click', function () {
+      var url = this.getAttribute('data-cohort');
+      console.log(url);
+      var modalBody = document.querySelector('#cohort-modal .modal-body');
       modalBody.innerHTML = "Chargement...";
 
       // Requete Ajax GET avec l'URL récupéré

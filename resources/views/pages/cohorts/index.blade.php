@@ -61,7 +61,9 @@
                                                 <td>12</td>
 
                                                 <td>
-                                                    <a class="hover:text-primary cursor-pointer" href="#" data-modal-toggle="#cohort-modal" data-cohort-id="{{ $cohort->id }}">
+                                                    <a class="hover:text-primary cursor-pointer" href="#"
+                                                       data-modal-toggle="#cohort-modal"
+                                                       data-cohort="{{ route('cohort.form', $cohort) }}">
                                                         <i class="ki-filled ki-cursor"></i>
                                                     </a>
 

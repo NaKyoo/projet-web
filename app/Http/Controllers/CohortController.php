@@ -145,6 +145,13 @@ class CohortController extends Controller
         return redirect()->route('cohort.show', $cohort)->with('error', 'Cet étudiant ne fait pas partie de cette promotion');
     }
 
+    public function getForm(Cohort $cohort)
+    {
+        $schools = School::pluck('name', 'id');
 
+        $html = view('pages.cohorts.cohort-form', compact('cohort', 'schools'))->render();
+
+        return response()->json(['html' => $html]);
+    }
 
 }
