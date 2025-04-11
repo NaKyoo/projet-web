@@ -52,4 +52,5 @@
             @include('profile.partials.update-user-password-form')
             @include('profile.partials.delete-user-form')
         </div>
+    </div>
 </x-app-layout>

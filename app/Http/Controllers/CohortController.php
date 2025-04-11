@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Cohort;
 use App\Models\School;
 use App\Models\User;
-use App\Models\UserSchool;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -119,15 +118,7 @@ class CohortController extends Controller
             'user_id' => 'required|exists:users,id',
         ]);
 
-        // Vérifier si l'étudiant est déjà associé à la cohorte
-        $exists = $cohort->students()->where('user_id', $validated['user_id'])->exists();
-
-        if ($exists) {
-            // Si l'étudiant existe déjà, rediriger avec un message d'erreur
-            return redirect()->route('cohort.show', $cohort);
-        }
-
-        // Ajouter l'étudiant à la cohorte si ce n'est pas déjà fait
+        // Ajouter l'étudiant à la cohorte
         $cohort->students()->attach($validated['user_id']);
 
         return redirect()->route('cohort.show', $cohort);
@@ -135,14 +126,10 @@ class CohortController extends Controller
 
     public function deleteStudent(Cohort $cohort, $userId)
     {
-        $student = $cohort->students()->find($userId);
 
-        if ($student) {
-            $cohort->students()->detach($userId);
-            return redirect()->route('cohort.show', $cohort);
-        }
+        $cohort->students()->detach($userId);
+        return redirect()->route('cohort.show', $cohort);
 
-        return redirect()->route('cohort.show', $cohort)->with('error', 'Cet étudiant ne fait pas partie de cette promotion');
     }
 
     public function getForm(Cohort $cohort)

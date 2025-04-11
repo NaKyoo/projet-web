@@ -17,7 +17,12 @@ Route::redirect('/', 'dashboard');
 Route::middleware('auth')->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    // Route pour les updates
+    Route::patch('/profile', [ProfileController::class, 'updateInformation'])->name('profile.updateInformation');
+    Route::patch('/profile/email', [ProfileController::class, 'updateEmail'])->name('profile.updateEmail');
+
+
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::middleware('verified')->group(function () {

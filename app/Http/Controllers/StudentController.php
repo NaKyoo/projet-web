@@ -17,7 +17,6 @@ class StudentController extends Controller
         // Récupérer tous les utilisateurs
         $users = User::all();
 
-
         $students = $users->filter(function ($user) {
             return $user->school() && $user->school()->pivot->role === 'student';
         });
