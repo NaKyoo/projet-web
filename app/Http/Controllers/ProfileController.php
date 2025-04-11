@@ -6,6 +6,7 @@ use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
@@ -24,15 +25,46 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function updateInformation(ProfileUpdateRequest $request)
+    public function update(ProfileUpdateRequest $request)
     {
         $user = $request->user();
 
-        // Met à jour les informations de l'utilisateur
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
+        // Mise à jour des informations de base (nom, prénom, email)
+        if ($request->filled('first_name')) {
+            $user->first_name = $request->input('first_name');
+        }
 
-        // Mise à jour de l'avatar
+        if ($request->filled('last_name')) {
+            $user->last_name = $request->input('last_name');
+        }
+
+        if ($request->filled('email')) {
+            $user->email = $request->input('email');
+        }
+
+        // Mise à jour du mdp
+        if ($request->filled('current_password') && $request->filled('new_password') && $request->filled('new_password_confirmation')) {
+            // Vérification du mdp actuel
+            if (Hash::check($request->current_password, $user->password)) {
+
+                // Vérifie si le mdp est différent de l'ancien
+                if ($request->current_password === $request->new_password) {
+                    return back()->withErrors(['new_password' => 'Le nouveau mot de passe doit être différent de l\'ancien.']);
+                }
+
+                // Vérification des nouveaux mdp
+                if ($request->new_password !== $request->new_password_confirmation) {
+                    return back()->withErrors(['new_password' => 'Les nouveaux mots de passe ne correspondent pas.']);
+                }
+
+                // Mise à jour du mdp
+                $user->password = bcrypt($request->new_password);
+            } else {
+                return back()->withErrors(['current_password' => 'Le mot de passe actuel est incorrect.']);
+            }
+        }
+
+        // Mise à jour de l'avatar si une nouvelle image est envoyée
         if ($request->hasFile('avatar')) {
             $avatarPath = $request->file('avatar')->store('avatars', 'public');
             $user->avatar = $avatarPath;
@@ -40,23 +72,7 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return redirect()->route('profile.edit')->with('status', 'Profile updated successfully');
-    }
-
-    public function updateEmail(Request $request)
-    {
-        $request->validate([
-            'email' => ['required', 'email', 'unique:users,email,' . $request->user()->id],
-        ]);
-
-        $user = $request->user();
-
-        $user->email = $request->email;
-        $user->email_verified_at = null;
-        $user->save();
-
-        // Retourner avec un message de succès
-        return redirect()->route('profile.edit')->with('status', 'Email updated successfully');
+        return redirect()->route('profile.edit')->with('status', 'Profile updated successfully!');
     }
 
     /**

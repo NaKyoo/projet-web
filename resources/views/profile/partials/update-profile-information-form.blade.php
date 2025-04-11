@@ -1,6 +1,25 @@
-<form method="POST" action="{{ route('profile.updateInformation') }}">
+<form method="POST" action="{{ route('profile.update') }}">
     @csrf
     @method('PATCH')
+
+
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
+
+    @error('current_password')
+    <div class="text-red-500 text-sm">{{ $message }}</div>
+    @enderror
+
+    @error('new_password')
+    <div class="text-red-500 text-sm">{{ $message }}</div>
+    @enderror
+
+    @error('new_password_confirmation')
+    <div class="text-red-500 text-sm">{{ $message }}</div>
+    @enderror
 
     <div class="card pb-2.5">
         <div class="card-header" id="basic_settings">

@@ -16,18 +16,26 @@ class ProfileUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            // Validation pour le prénom et nom
+            'first_name' => ['nullable', 'string', 'max:255'],
+            'last_name' => ['nullable', 'string', 'max:255'],
 
-//            'email' => [
-//                'required',
-//                'string',
-//                'lowercase',
-//                'email',
-//                'max:255',
-//                Rule::unique(User::class)->ignore($this->user()->id),
-//            ],
+            // Validation de l'email
+            'email' => [
+                'nullable',
+                'string',
+                'lowercase',
+                'email',
+                'max:255',
+                Rule::unique(User::class)->ignore($this->user()->id),
+            ],
+
+            // Validation pour le mot de passe
+            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+
+            // Validation pour la photo
+            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+
         ];
     }
 }
