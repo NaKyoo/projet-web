@@ -10472,71 +10472,36 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /***/ (() => {
 
 document.addEventListener('DOMContentLoaded', function () {
-  var form = document.querySelector('form');
-  var submitButton = form.querySelector('x-forms.primary-button');
+  var studentButtons = document.querySelectorAll('[data-modal-toggle="#student-modal"]');
+  var teacherButtons = document.querySelectorAll('[data-modal-toggle="#teacher-modal"]');
+  studentButtons.forEach(function (studentButton) {
+    studentButton.addEventListener('click', function () {
+      var url = this.getAttribute('data-student');
+      var modalBody = document.querySelector('#student-modal .modal-body');
+      modalBody.innerHTML = "Chargement...";
 
-  // Empêche la soumission par défaut du formulaire
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    // Affiche le bouton comme désactivé pour éviter une double soumission
-    submitButton.disabled = true;
-    submitButton.innerHTML = "Enregistrement..."; // Change le texte pour informer l'utilisateur
-
-    // Crée un FormData pour envoyer les données du formulaire
-    var formData = new FormData(form);
-
-    // Envoie les données via AJAX (PUT)
-    fetch(form.action, {
-      method: 'PUT',
-      headers: {
-        'X-CSRF-TOKEN': form.querySelector('input[name="_token"]').value
-      },
-      body: formData
-    }).then(function (response) {
-      if (!response.ok) {
-        throw new Error('La mise à jour a échoué.');
-      }
-      return response.json();
-    }).then(function (data) {
-      // Traitement en cas de succès
-      if (data.success) {
-        // Ici tu peux faire des actions comme fermer la modal, rafraîchir la liste, etc.
-        alert("Les modifications ont été enregistrées avec succès.");
-        location.reload(); // ou fermeture de la modal et rafraîchissement partiel
-      } else {
-        // Affichage des erreurs si la validation échoue
-        displayErrors(data.errors);
-        submitButton.disabled = false;
-        submitButton.innerHTML = "Enregistrer les modifications"; // Remet le texte
-      }
-    })["catch"](function (error) {
-      console.error(error);
-      alert("Une erreur est survenue. Veuillez réessayer.");
-      submitButton.disabled = false;
-      submitButton.innerHTML = "Enregistrer les modifications";
+      // Requete Ajax GET avec l'URL récupéré
+      fetch(url).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        modalBody.innerHTML = data.html;
+      });
     });
   });
+  teacherButtons.forEach(function (teacherButton) {
+    teacherButton.addEventListener('click', function () {
+      var url = this.getAttribute('data-teacher');
+      var modalBody = document.querySelector('#teacher-modal .modal-body');
+      modalBody.innerHTML = "Chargement...";
 
-  // Fonction pour afficher les erreurs de validation dans la modal
-  function displayErrors(errors) {
-    // Supprimer les anciennes erreurs
-    var errorMessages = document.querySelectorAll('.error-message');
-    errorMessages.forEach(function (error) {
-      return error.remove();
+      // Requete Ajax GET avec l'URL récupéré
+      fetch(url).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        modalBody.innerHTML = data.html;
+      });
     });
-
-    // Ajouter les erreurs dans les champs
-    for (var field in errors) {
-      var inputField = form.querySelector("[name=\"".concat(field, "\"]"));
-      if (inputField) {
-        var errorDiv = document.createElement('div');
-        errorDiv.classList.add('error-message', 'text-red-600', 'mt-1');
-        errorDiv.innerHTML = errors[field].join('<br/>');
-        inputField.parentElement.appendChild(errorDiv);
-      }
-    }
-  }
+  });
 });
 
 /***/ }),

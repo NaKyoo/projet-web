@@ -119,4 +119,11 @@ class StudentController extends Controller
         return redirect()->route('student.index');
     }
 
+
+    public function getForm(User $student) {
+        $html = view('pages.students.student-form', compact('student'))->render();
+
+        return response()->json(['html' => $html]);
+    }
+
 }

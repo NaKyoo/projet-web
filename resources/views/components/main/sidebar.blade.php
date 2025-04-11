@@ -59,6 +59,7 @@
                             </a>
                         </div>
                         <!-- @todo CETTE PARTIE EST A GENERER DEPUIS LA BDD -->
+
                         <div class="menu-item">
                             <a class="menu-link py-2 px-2.5 rounded-md border border-transparent menu-item-active:border-gray-200 menu-item-active:bg-light menu-link-hover:bg-light menu-link-hover:border-gray-200"
                                href="#">

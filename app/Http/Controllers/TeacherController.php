@@ -116,4 +116,10 @@ class TeacherController extends Controller
 
         return redirect()->route('teacher.index');
     }
+
+    public function getForm(User $teacher) {
+        $html = view('pages.teachers.teacher-form', compact('teacher'))->render();
+
+        return response()->json(['html' => $html]);
+    }
 }

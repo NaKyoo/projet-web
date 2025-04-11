@@ -41,13 +41,14 @@ Route::middleware('auth')->group(function () {
         Route::delete('/teachers/{teacher}', [TeacherController::class, 'destroy'])->name('teacher.destroy');
         Route::put('/teachers/{id}', [TeacherController::class, 'update'])->name('teacher.update');
         Route::get('/teachers', [TeacherController::class, 'index'])->name('teacher.index');
+        Route::get('teacher/form/{teacher}', [TeacherController::class, 'getForm'])->name('teacher.form');
 
         // Students
         Route::post('/students', [StudentController::class, 'store'])->name('student.store');
-        Route::delete('/students/{student}', [StudentController::class, 'destroy'])->name('student.destroy');
+        Route::delete('/students/{id}', [StudentController::class, 'destroy'])->name('student.destroy');
         Route::put('/students/{id}', [StudentController::class, 'update'])->name('student.update');
         Route::get('/students', [StudentController::class, 'index'])->name('student.index');
-
+        Route::get('student/form/{student}', [StudentController::class, 'getForm'])->name('student.form');
 
         // Knowledge
         Route::get('knowledge', [KnowledgeController::class, 'index'])->name('knowledge.index');

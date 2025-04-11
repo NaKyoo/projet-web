@@ -51,7 +51,8 @@
                                                             <i class="text-success ki-filled ki-shield-tick"></i>
                                                         </a>
                                                         <a class="hover:text-primary cursor-pointer" href="#"
-                                                           data-modal-toggle="#teacher-modal">
+                                                           data-modal-toggle="#teacher-modal"
+                                                           data-teacher="{{ route('teacher.form', $teacher) }}">
                                                             <i class="ki-filled ki-cursor"></i>
                                                         </a>
                                                         <form action="{{ route('teacher.destroy', $teacher->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet enseignant ?')">
