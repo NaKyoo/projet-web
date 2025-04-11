@@ -80,22 +80,36 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        // Validation de la case cochée + le mdp
-        $request->validateWithBag('userDeletion', [
-            'confirm_delete' => ['accepted'],
-        ]);
-
         $user = $request->user();
 
+        if ($request->input('action') === 'deactivate') {
+            // Désactivation du compte
+            $user->is_active = false;
+            $user->save();
 
-        Auth::logout();
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
 
-        $user->delete();
+            return redirect('/')->with('status', 'Votre compte a été désactivé.');
+        }
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        if ($request->input('action') === 'delete') {
+            // Validation pour suppression
+            $request->validateWithBag('userDeletion', [
+                'confirm_delete' => ['required', 'accepted'],
+            ]);
 
-        return Redirect::to('/')->with('status', 'Votre compte a été supprimé avec succès.');
+            Auth::logout();
+            $user->delete();
+
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect('/')->with('status', 'Votre compte a été supprimé.');
+        }
+
+        return back()->withErrors(['action' => 'Aucune action valide spécifiée.']);
     }
 
 }

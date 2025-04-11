@@ -18,23 +18,25 @@
                     </a>
                     if you still wish continue.
                 </div>
-                <label class="checkbox-group">
-                    <input class="checkbox checkbox-sm" name="confirm_delete" type="checkbox" value="1" required>
+                <label class="checkbox-group" >
+                    <input id="confirm_delete" class="checkbox checkbox-sm" name="confirm_delete" type="checkbox" value="1">
                     <span class="checkbox-label">
                     Confirm deleting account
                    </span>
                 </label>
 
-                @error('userDeletion.confirm_delete')
+                @error('confirm_delete')
                 <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
                 @enderror
             </div>
             <div class="flex justify-end gap-2.5">
-                <button class="btn btn-light">
+
+                <button type="submit" name="action" value="deactivate" class="btn btn-light">
                     Deactivate Instead
-                    <button class="btn btn-danger">
-                        Delete Account
-                    </button>
+                </button>
+
+                <button type="submit" name="action" value="delete" class="btn btn-danger">
+                    Delete Account
                 </button>
             </div>
         </div>
