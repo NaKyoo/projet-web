@@ -7,7 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -42,6 +42,7 @@ class ProfileController extends Controller
             $user->email = $request->input('email');
         }
 
+
         // Mise à jour du mdp
         if ($request->filled('current_password') && $request->filled('new_password') && $request->filled('new_password_confirmation')) {
             // Vérification du mdp actuel
@@ -64,11 +65,20 @@ class ProfileController extends Controller
             }
         }
 
-        // Mise à jour de l'avatar si une nouvelle image est envoyée
+        // === Upload de l'avatar ===
         if ($request->hasFile('avatar')) {
+            // Supprimer l'ancien s'il existe
+            if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
+                Storage::disk('public')->delete($user->avatar);
+            }
+
+            // Enregistrement du nouveau
             $avatarPath = $request->file('avatar')->store('avatars', 'public');
+
+            // Enregistrer dans la BDD
             $user->avatar = $avatarPath;
         }
+
 
         $user->save();
 

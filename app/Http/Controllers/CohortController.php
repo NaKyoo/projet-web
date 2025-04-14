@@ -22,7 +22,9 @@ class CohortController extends Controller
     public function index() {
 
         // Récupérer les promotions avec écoles + étudiants
-        $cohorts = Cohort::with('school')->get();
+        $cohorts = Cohort::with('school', 'students')->get();
+
+
 
         // Récupérer les écoles pour le dropdown
         $schools = School::pluck('name', 'id');
@@ -42,6 +44,8 @@ class CohortController extends Controller
             ->where('users_schools.role', 'student')
             ->select('users.*')
             ->get();
+
+
 
         $cohortStudents = $cohort->students;
 

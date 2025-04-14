@@ -58,7 +58,7 @@
                                                 <td>
                                                     {{ \Carbon\Carbon::parse($cohort->start_date)->format('Y') }} - {{ \Carbon\Carbon::parse($cohort->end_date)->format('Y') }}
                                                 </td>
-                                                <td>12</td>
+                                                <td>{{ $cohort->students->count() }}</td>
 
                                                 <td>
                                                     <a class="hover:text-primary cursor-pointer" href="#"
