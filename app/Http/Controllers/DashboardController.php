@@ -9,31 +9,42 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    /**
+     * Affiche le tableau de bord selon le rôle de l'utilisateur
+     * Cette méthode récupère les informations pertinentes pour l'affichage du tableau de bord
+     * en fonction du rôle de l'utilisateur connecté
+     *
+     * @return \Illuminate\View\View
+     */
     public function index() {
+
+        // Récupère le rôle de l'utilisateur actuellement connecté dans l'école
         $userRole = auth()->user()->school()->pivot->role;
 
+        // Récupère toutes les cohortes disponibles
         $cohorts = Cohort::all();
 
-        // Récupérer tous les utilisateurs
+        // Récupère tous les utilisateurs enregistrés
         $users = User::all();
 
-        // Filtrer les étudiants
+        // Filtre les utilisateurs pour obtenir les étudiants
         $students = $users->filter(function ($user) {
+            // Vérifie que l'utilisateur a une école et que son rôle est 'student'
             return $user->school() && $user->school()->pivot->role === 'student';
         });
 
-        // Filtrer les enseignants
+        // Filtre les utilisateurs pour obtenir les enseignants
         $teachers = $users->filter(function ($user) {
+            // Vérifie que l'utilisateur a une école et que son rôle est 'teacher'
             return $user->school() && $user->school()->pivot->role === 'teacher';
         });
 
-        // Compter le nombre d'enseignants
+        // Compteur
         $teachersCount = $teachers->count();
-        // Compter le nombre d'étudiants
         $studentsCount = $students->count();
-        // Compter le nombre de promotions
         $cohortsCount = $cohorts->count();
 
+        // Retourne la vue du tableau de bord correspondant au rôle de l'utilisateur
         return view('pages.dashboard.dashboard-' . $userRole, compact('cohorts',
             'studentsCount', 'teachersCount', 'cohortsCount'));
 

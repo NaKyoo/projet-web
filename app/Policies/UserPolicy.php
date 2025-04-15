@@ -14,6 +14,9 @@ class UserPolicy
         //
     }
 
+    /**
+     * Détermine si l'utilisateur peut **voir** des ressources liées aux utilisateurs
+     */
     public function view(User $user): bool
     {
         return \DB::table('users_schools')
@@ -22,6 +25,9 @@ class UserPolicy
             ->exists();
     }
 
+    /**
+     * Détermine si l'utilisateur peut **créer** un nouvel utilisateur
+     */
     public function create(User $user): bool
     {
         return \DB::table('users_schools')
@@ -30,6 +36,9 @@ class UserPolicy
             ->exists();
     }
 
+    /**
+     * Détermine si l'utilisateur peut **mettre à jour** un utilisateur
+     */
     public function update(User $user): bool
     {
         return \DB::table('users_schools')
@@ -38,6 +47,9 @@ class UserPolicy
             ->exists();
     }
 
+    /**
+     * Détermine si l'utilisateur peut **supprimer** un utilisateur
+     */
     public function delete(User $user): bool
     {
         return \DB::table('users_schools')

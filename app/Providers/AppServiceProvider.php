@@ -43,7 +43,7 @@ class AppServiceProvider extends ServiceProvider
                         // Récupérer les cohortes auxquelles l'enseignant est associé via la table pivot cohort_teacher
                         $sidebarCohorts = $user->cohorts()->with('school')->orderBy('name')->get();
                     } else {
-                        // Sinon (par exemple admin), afficher toutes les cohortes
+                        // Sinon afficher toutes les cohortes
                         $sidebarCohorts = Cohort::with('school')->orderBy('name')->get();
                     }
                 }

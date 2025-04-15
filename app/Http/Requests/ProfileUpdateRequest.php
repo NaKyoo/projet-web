@@ -15,6 +15,12 @@ class ProfileUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        /**
+         * Détermine les règles de validation pour la mise à jour du profil utilisateur.
+         *
+         * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+         */
+
         return [
             // Validation pour le prénom et nom
             'first_name' => ['nullable', 'string', 'max:255'],
