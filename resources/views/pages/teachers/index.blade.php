@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div data-datatable="true" data-datatable-page-size="5">
+                        <div data-datatable="true" data-datatable-page-size="6">
                             <div class="scrollable-x-auto">
                                 <table class="table table-border" data-datatable-table="true">
                                     <thead>
@@ -66,37 +66,6 @@
                                                 </td>
                                             </tr>
                                         @endforeach
-                                    <tr>
-                                            <td>Doe</td>
-                                            <td>John</td>
-                                            <td>
-                                                <div class="flex items-center justify-between">
-                                                    <a href="#">
-                                                        <i class="text-success ki-filled ki-shield-tick"></i>
-                                                    </a>
-
-                                                    <a class="hover:text-primary cursor-pointer" href="#"
-                                                       data-modal-toggle="#student-modal">
-                                                        <i class="ki-filled ki-cursor"></i>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Joe</td>
-                                            <td>Dohn</td>
-                                            <td>
-                                                <div class="flex items-center justify-between">
-                                                    <a href="#">
-                                                        <i class="text-danger ki-filled ki-shield-cross"></i>
-                                                    </a>
-                                                    <a class="hover:text-primary cursor-pointer" href="#"
-                                                       data-modal-toggle="#student-modal">
-                                                        <i class="ki-filled ki-cursor"></i>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

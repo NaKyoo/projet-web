@@ -14,23 +14,24 @@
                 <div class="card card-grid h-full min-w-full">
                     <div class="card-header">
                         <h3 class="card-title">
-                            Block 1
+                            @foreach($cohorts as $cohort)
+                                <div class="p-3 border rounded-md shadow-sm bg-white">
+                                    <h4 class="text-base font-semibold text-gray-800">
+                                        {{ $cohort->name }}
+                                    </h4>
+                                    <p class="text-sm text-gray-600">
+                                        École : {{ $cohort->school->name ?? 'Non définie' }}<br>
+                                        Année : {{ \Carbon\Carbon::parse($cohort->start_date)->format('Y') }}
+                                        - {{ \Carbon\Carbon::parse($cohort->end_date)->format('Y') }}
+                                    </p>
+                                </div>
+                            @endforeach
+
                         </h3>
                     </div>
                     <div class="card-body flex flex-col gap-5">
 
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="lg:col-span-1">
-            <div class="card card-grid h-full min-w-full">
-                <div class="card-header">
-                    <h3 class="card-title">
-                        Block 2
-                    </h3>
-                </div>
-                <div class="card-body flex flex-col gap-5">
                 </div>
             </div>
         </div>

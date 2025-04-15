@@ -34,6 +34,8 @@ Route::middleware('auth')->group(function () {
         // Cohort
         Route::post('/cohorts/{cohort}/students', [CohortController::class, 'addStudent'])->name('cohorts.addStudent');
         Route::delete('/cohorts/{cohort}/students/{userId}', [CohortController::class, 'deleteStudent'])->name('cohorts.deleteStudent');
+        Route::post('cohorts/{cohort}/addTeacher', [CohortController::class, 'addTeacher'])->name('cohorts.addTeacher');
+        Route::delete('cohorts/{cohort}/deleteTeacher/{userId}', [CohortController::class, 'deleteTeacher'])->name('cohorts.deleteTeacher');
         Route::get('/cohort/{cohort}/form', [CohortController::class, 'getForm'])->name('cohort.form');
 
 

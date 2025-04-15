@@ -13,7 +13,17 @@ class CohortPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->school()->pivot->role == 'admin';
+        if ($user->school()->pivot->role == 'admin') {
+            return true;
+        }
+
+        // Si l'utilisateur est un teacher, il peut voir les cohortes auxquelles il est assigné
+        if ($user->school()->pivot->role == 'teacher') {
+            // Vérifier si l'utilisateur est associé à au moins une cohorte
+            return $user->cohorts()->exists();  // Vérifie s'il a des cohortes attribuées
+        }
+
+        return false;
     }
 
     /**
@@ -25,42 +35,58 @@ class CohortPolicy
     }
 
     /**
-     * Determine whether the user can create models.
+     * Vérifie si l'utilisateur est un admin pour créer une cohorte.
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->school()->pivot->role === 'admin';
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Vérifie si l'utilisateur est un admin pour mettre à jour une cohorte.
      */
     public function update(User $user, Cohort $cohort): bool
     {
-        return false;
+        return $user->school()->pivot->role === 'admin';
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Vérifie si l'utilisateur est un admin pour supprimer une cohorte.
      */
     public function delete(User $user, Cohort $cohort): bool
     {
-        return false;
+        return $user->school()->pivot->role === 'admin';
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Vérifie si l'utilisateur est un admin pour ajouter un étudiant.
      */
-    public function restore(User $user, Cohort $cohort): bool
+    public function addStudent(User $user, Cohort $cohort): bool
     {
-        return false;
+        return $user->school()->pivot->role === 'admin';
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Vérifie si l'utilisateur est un admin pour supprimer un étudiant.
      */
-    public function forceDelete(User $user, Cohort $cohort): bool
+    public function deleteStudent(User $user, Cohort $cohort): bool
     {
-        return false;
+        return $user->school()->pivot->role === 'admin';
+    }
+
+    /**
+     * Vérifie si l'utilisateur est un admin pour ajouter un enseignant.
+     */
+    public function addTeacher(User $user, Cohort $cohort): bool
+    {
+        return $user->school()->pivot->role === 'admin';
+    }
+
+    /**
+     * Vérifie si l'utilisateur est un admin pour supprimer un enseignant.
+     */
+    public function deleteTeacher(User $user, Cohort $cohort): bool
+    {
+        return $user->school()->pivot->role === 'admin';
     }
 }

@@ -2,17 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cohort;
 use App\Models\User;
 use App\Models\School;
 use App\Models\UserSchool;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class StudentController extends Controller
 {
+    use AuthorizesRequests;
     public function index()
     {
+
+        $this->authorize('view', User::class);
 
         // Récupérer tous les utilisateurs
         $users = User::all();

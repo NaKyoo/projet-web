@@ -27,6 +27,8 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request)
     {
+
+        dd($request->file('avatar'));
         $user = $request->user();
 
         // Mise à jour des informations de base (nom, prénom, email)
@@ -65,20 +67,18 @@ class ProfileController extends Controller
             }
         }
 
-        // === Upload de l'avatar ===
+        // Changement de l'avatar
+
+
+        dd($request);
+
         if ($request->hasFile('avatar')) {
-            // Supprimer l'ancien s'il existe
-            if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
-                Storage::disk('public')->delete($user->avatar);
-            }
-
-            // Enregistrement du nouveau
-            $avatarPath = $request->file('avatar')->store('avatars', 'public');
-
-            // Enregistrer dans la BDD
-            $user->avatar = $avatarPath;
+            $file = $request->file('avatar');
+            $path = $file->store('avatars');
+            dd($path);
+        } else {
+            dd('Aucun fichier envoyé.');
         }
-
 
         $user->save();
 

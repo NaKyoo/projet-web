@@ -26,6 +26,7 @@ class User extends Authenticatable
         'birth_date',
         'email',
         'password',
+        'avatar',
     ];
 
     /**
@@ -82,4 +83,11 @@ class User extends Authenticatable
             ->withPivot('role')
             ->first();
     }
+    public function cohorts()
+    {
+        return $this->belongsToMany(Cohort::class, 'cohort_teacher', 'user_id', 'cohort_id')
+            ->withTimestamps();
+    }
+
+
 }

@@ -21,4 +21,11 @@ class Cohort extends Model
     public function students() {
         return $this->belongsToMany(User::class, 'cohort_student', 'cohort_id', 'user_id')->withTimestamps();
     }
+
+    // Liaison avec les professeurs
+    public function teachers()
+    {
+        return $this->belongsToMany(User::class, 'cohort_teacher', 'cohort_id', 'user_id')->withTimestamps();
+    }
+
 }

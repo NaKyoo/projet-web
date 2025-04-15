@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
+
     const studentButtons = document.querySelectorAll('[data-modal-toggle="#student-modal"]');
     const teacherButtons = document.querySelectorAll('[data-modal-toggle="#teacher-modal"]');
     const cohortButtons = document.querySelectorAll('[data-modal-toggle="#cohort-modal"]');
-
 
     studentButtons.forEach(function (studentButton) {
         studentButton.addEventListener('click', function () {
@@ -58,5 +58,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
         })
     });
-
 });
+
+
+
+
+
+

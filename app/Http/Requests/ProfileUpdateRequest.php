@@ -33,8 +33,8 @@ class ProfileUpdateRequest extends FormRequest
             // Validation pour le mot de passe
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
 
-            // Validation pour la photo
-            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            // Validation pour l'avatar
+            'avatar' => ['nullable', 'file', 'mimes:jpeg,png,jpg', 'max:2048'],
 
 
         ];
