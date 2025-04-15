@@ -159,15 +159,17 @@
         <div class="menu" data-menu="true">
             <div class="menu-item" data-menu-item-offset="-10px, 15px" data-menu-item-placement="right-end" data-menu-item-toggle="dropdown" data-menu-item-trigger="click|lg:click">
                 <div class="menu-toggle btn btn-icon rounded-full">
-                    <img alt="" class="size-8 rounded-full justify-center border border-gray-500 shrink-0"
-                         src="{{ asset('metronic/media/avatars/300-2.png') }}" />
+                    <img alt="User Avatar" class="size-8 rounded-full justify-center border border-gray-500 shrink-0"
+                         src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : asset('metronic/media/avatars/300-2.png') }}" />
+
                 </div>
                 <div class="menu-dropdown menu-default light:border-gray-300 w-screen max-w-[250px]">
                     <div class="flex items-center justify-between px-5 py-1.5 gap-1.5">
                         <div class="flex items-center gap-2">
                             <img alt="" class="size-9 rounded-full border-2 border-success"
-                                 src="{{ asset('metronic/media/avatars/300-2.png') }}">
-                                <div class="flex flex-col gap-1.5">
+                                 src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : asset('metronic/media/avatars/300-2.png') }}">
+
+                            <div class="flex flex-col gap-1.5">
                                     <span class="text-sm text-gray-800 font-semibold leading-none">
                                         {{ auth()->user()->short_name }}
                                     </span>

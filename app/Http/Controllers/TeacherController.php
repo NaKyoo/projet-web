@@ -35,7 +35,7 @@ class TeacherController extends Controller
     // Fonction pour créer un utilisateur dans la base de donnée
     public function store(Request $request)
     {
-        // $this->authorize('create', new User());
+        $this->authorize('create', User::class);
 
         // Validation des données
         $validatedData = $request->validate([
@@ -72,6 +72,8 @@ class TeacherController extends Controller
     // Fonction pour supprimer un enseignant
     public function destroy($id)
     {
+        $this->authorize('delete', User::class);
+
         $teacher = User::findOrFail($id);
 
         // On récupère la ligne manuellement
@@ -95,6 +97,9 @@ class TeacherController extends Controller
 
     public function update(Request $request, $id)
     {
+
+        $this->authorize('update', User::class);
+
         // Vérification des infos
         $validated = $request->validate([
             'last_name' => 'required|string|max:255',

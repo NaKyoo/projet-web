@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cohort;
 use App\Models\User;
 use App\Models\School;
 use App\Models\UserSchool;
@@ -36,7 +35,7 @@ class StudentController extends Controller
     // Fonction pour créer un utilisateur dans la base de donnée
     public function store(Request $request)
     {
-        // $this->authorize('create', User::class);
+        $this->authorize('create', User::class);
 
         // Validation des données
         $validatedData = $request->validate([
@@ -71,6 +70,8 @@ class StudentController extends Controller
 
     public function destroy($id)
     {
+        $this->authorize('delete', User::class);
+
         $student = User::findOrFail($id);
 
         // On récupère la ligne manuellement
@@ -96,6 +97,8 @@ class StudentController extends Controller
 
     public function update(Request $request, $id)
     {
+        $this->authorize('update', User::class);
+
         // Vérification des infos
         $validated = $request->validate([
             'last_name' => 'required|string|max:255',

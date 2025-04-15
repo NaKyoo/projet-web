@@ -69,14 +69,28 @@ class ProfileController extends Controller
         // Changement de l'avatar
 
         if ($request->hasFile('avatar')) {
+            // Vérifier si un avatar existe déjà et le supprimer
+            if ($user->avatar) {
+                // Supprimer le fichier existant du stockage
+                Storage::disk('public')->delete($user->avatar);
+            }
+
+            // Récupérer le fichier téléchargé
             $file = $request->file('avatar');
-            $path = $file->store('avatars');
-            dd($path);
-        } else {
-            dd('Aucun fichier envoyé.');
+
+            // Créer un nom unique pour le fichier (ajouter un identifiant unique pour éviter les conflits)
+            $filename = uniqid('avatar_', true) . '.' . $file->getClientOriginalExtension();
+
+            // Stocker le fichier sous un nom unique dans le dossier 'avatars'
+            $path = $file->storeAs('avatars', $filename, 'public');
+
+            // Mettre à jour l'avatar de l'utilisateur avec le nouveau chemin du fichier
+            $user->avatar = $path;
         }
 
+
         $user->save();
+
 
         return redirect()->route('profile.edit')->with('status', 'Profile updated successfully!');
     }

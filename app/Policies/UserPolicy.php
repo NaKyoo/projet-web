@@ -24,6 +24,25 @@ class UserPolicy
 
     public function create(User $user): bool
     {
-        return $user->role === 'admin';
+        return \DB::table('users_schools')
+            ->where('user_id', $user->id)
+            ->where('role', 'admin')
+            ->exists();
+    }
+
+    public function update(User $user): bool
+    {
+        return \DB::table('users_schools')
+            ->where('user_id', $user->id)
+            ->where('role', 'admin')
+            ->exists();
+    }
+
+    public function delete(User $user): bool
+    {
+        return \DB::table('users_schools')
+            ->where('user_id', $user->id)
+            ->where('role', 'admin')
+            ->exists();
     }
 }
