@@ -77,18 +77,27 @@ class ProfileController extends Controller
             }
         }
 
-        // Changement de l'avatar
-        if ($request->hasFile('avatar')) {
-            // Si un avatar existe déjà, on le supprime
+        // Changement ou suppression de l'avatar
+        if ($request->has('avatar_remove') && $request->avatar_remove == 1) {
+            // Si l'avatar doit être supprimé
             if ($user->avatar) {
                 // Supprimer le fichier existant du stockage
+                Storage::disk('public')->delete($user->avatar);
+            }
+
+            $user->avatar = 'metronic/media/avatars/300-2.png'; // Mettre le chemin de l'image par défaut
+        } elseif ($request->hasFile('avatar')) {
+            // Si un nouvel avatar est téléchargé
+            // Si un avatar existant est présent, on le supprime
+            if ($user->avatar) {
+                // Supprimer l'ancien fichier du stockage
                 Storage::disk('public')->delete($user->avatar);
             }
 
             // Récupérer le fichier téléchargé
             $file = $request->file('avatar');
 
-            // Crée un nom unique pour le fichier d'avatar
+            // Créer un nom unique pour le fichier d'avatar
             $filename = uniqid('avatar_', true) . '.' . $file->getClientOriginalExtension();
 
             // Stocke l'avatar sous un nom unique dans le dossier 'avatars'

@@ -41,11 +41,20 @@
 
                         <!-- Image Preview (similar to Metronic style) -->
                         <div class="image-input-placeholder rounded-full border-2 border-success image-input-empty:border-gray-300"
-                             style="background-image:url('{{ asset('metronic/media/avatars/blank.png') }}');">
-                            <div class="image-input-preview rounded-full"
+                             style="background-image:url('{{ asset('metronic/media/avatars/300-2.png') }}');">
+
+                            <!-- Image preview -->
+                            <div id="image-preview" class="image-input-preview rounded-full"
                                  style="background-image: url('{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : asset('metronic/media/avatars/300-2.png') }}');">
                             </div>
+
+                            <!-- Tooltip for removing or reverting image -->
+                            <div id="remove-image-btn" class="btn btn-icon btn-icon-xs btn-light shadow-default absolute z-1 size-5 -top-0.5 -end-0.5 rounded-full" data-tooltip="#image_input_tooltip" data-tooltip-trigger="hover" onclick="removeImage()">
+                                <i class="ki-filled ki-cross"></i> <!-- Cross icon for removal -->
+                            </div>
                         </div>
+
+                        <span class="tooltip" id="image_input_tooltip">Click to remove or revert</span>
 
                         <!-- Hidden file input -->
                         <input type="file" name="avatar" id="avatar" accept="image/png, image/jpeg, image/jpg" class="d-none" onchange="previewImage(event)">
@@ -55,14 +64,9 @@
                             <i class="ki-filled ki-pencil"></i> <!-- Pen icon for file selection -->
                         </button>
 
-                        <!-- Tooltip for removing or reverting image -->
-                        <div class="btn btn-icon btn-icon-xs btn-light shadow-default absolute z-1 size-5 -top-0.5 -end-0.5 rounded-full" data-tooltip="#image_input_tooltip" data-tooltip-trigger="hover">
-                            <i class="ki-filled ki-cross"></i> <!-- Cross icon for removal -->
-                        </div>
-                        <span class="tooltip" id="image_input_tooltip">Click to remove or revert</span>
-
                         <!-- Hidden input for avatar removal -->
-                        <input name="avatar_remove" type="hidden"/>
+                        <input name="avatar_remove" type="hidden" id="avatar_remove" value=""/>
+
                     </div>
 
                 </div>
@@ -128,16 +132,21 @@
 <script>
 
     function previewImage(event) {
-        var reader = new FileReader();
+        const reader = new FileReader();
         reader.onload = function () {
-            // Récupère l'élément de prévisualisation
-            var preview = document.querySelector('.image-input-preview');
-
-            // Met à jour le style de l'élément de prévisualisation avec l'image chargée
-            preview.style.backgroundImage = "url('" + reader.result + "')";
+            const preview = document.getElementById('image-preview');
+            preview.style.backgroundImage = 'url(' + reader.result + ')';
+            document.getElementById('avatar_remove').value = ''; // Clear the remove flag when a new image is uploaded
         }
-        // Lire le fichier sélectionné
         reader.readAsDataURL(event.target.files[0]);
+    }
+
+    // Function to remove the image and reset the avatar
+    function removeImage() {
+        const preview = document.getElementById('image-preview');
+        preview.style.backgroundImage = 'url("{{ asset('metronic/media/avatars/300-2.png') }}")'; // Default Metronic image
+        document.getElementById('avatar').value = ''; // Reset file input to ensure no file is sent
+        document.getElementById('avatar_remove').value = '1'; // Set flag to indicate removal when form is submitted
     }
 
 </script>
