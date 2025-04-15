@@ -6,6 +6,7 @@ use App\Models\Cohort;
 use App\Models\User;
 use App\Models\School;
 use App\Models\UserSchool;
+use App\Notifications\SendPasswordNotification;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -48,8 +49,11 @@ class StudentController extends Controller
         ]);
 
 
+        // Génère le mdp
+        $randomPassword = Str::random(6);
+
         // Hachage du mdp
-        $validatedData['password'] = Hash::make(Str::random(6));
+        $validatedData['password'] = Hash::make($randomPassword);
 
         $user = User::create($validatedData);
 
@@ -60,6 +64,7 @@ class StudentController extends Controller
             'role' => 'student',
         ]);
 
+        $user->notify(new SendPasswordNotification($randomPassword));
 
         return redirect()->route('student.index');
     }

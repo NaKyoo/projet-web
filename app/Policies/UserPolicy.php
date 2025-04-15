@@ -14,6 +14,14 @@ class UserPolicy
         //
     }
 
+    public function view(User $user): bool
+    {
+        return \DB::table('users_schools')
+            ->where('user_id', $user->id)
+            ->where('role', 'admin')
+            ->exists();
+    }
+
     public function create(User $user): bool
     {
         return $user->role === 'admin';

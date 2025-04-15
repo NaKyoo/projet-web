@@ -28,7 +28,6 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request)
     {
 
-        dd($request->file('avatar'));
         $user = $request->user();
 
         // Mise à jour des informations de base (nom, prénom, email)
@@ -68,9 +67,6 @@ class ProfileController extends Controller
         }
 
         // Changement de l'avatar
-
-
-        dd($request);
 
         if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');
