@@ -107,9 +107,11 @@ class CohortController extends Controller
                 function ($attribute, $value, $fail) use ($request) {
                     $start = \Carbon\Carbon::parse($request->start_date);
                     $end = \Carbon\Carbon::parse($value);
+                    $diffInDays = $start->diffInDays($end);
 
-                    if ($start->diffInYears($end) !== 3 || $start->copy()->addYears(3)->ne($end)) {
-                        $fail("La promotion doit durer exactement 3 ans.");
+                    // Correspond à une durée entre 2 ans (730 jours) et 3 ans (1095 jours)
+                    if ($diffInDays < 730 || $diffInDays > 1095) {
+                        $fail("La cohorte doit durer entre 2 et 3 ans.");
                     }
                 },
             ],
