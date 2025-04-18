@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Cohort;
 use App\Models\School;
 use App\Models\User;
+use App\Notifications\UserAddedToCohort;
+use App\Notifications\UserRemovedFromCohort;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -204,6 +206,11 @@ class CohortController extends Controller
         // Ajoute l'étudiant à la cohorte
         $cohort->students()->attach($validated['user_id']);
 
+        // Envoie la notification à l’étudiant concerné
+        $user = User::findOrFail($validated['user_id']);
+        $user->notify(new UserAddedToCohort($cohort));
+
+
         // Redirection vers la page de la cohorte
         return redirect()->route('cohort.show', $cohort);
     }
@@ -223,6 +230,12 @@ class CohortController extends Controller
 
         // Supprime l'étudiant de la cohorte
         $cohort->students()->detach($userId);
+
+        // Récupérer l'utilisateur à retirer de la cohorte
+        $user = User::find($userId);
+
+        // Envoyer la notification de retrait de cohorte
+        $user->notify(new UserRemovedFromCohort($cohort));
 
         // Redirection vers la page de la cohorte
         return redirect()->route('cohort.show', $cohort);
@@ -249,6 +262,10 @@ class CohortController extends Controller
         // Ajoute l'enseignant à la cohorte
         $cohort->teachers()->attach($validated['user_id']);
 
+        // Envoie la notification à l’étudiant concerné
+        $user = User::findOrFail($validated['user_id']);
+        $user->notify(new UserAddedToCohort($cohort));
+
         // Redirection vers la page de la cohorte
         return redirect()->route('cohort.show', $cohort);
     }
@@ -268,6 +285,12 @@ class CohortController extends Controller
 
         // Supprime l'enseignant de la cohorte
         $cohort->teachers()->detach($userId);
+
+        // Récupérer l'utilisateur à retirer de la cohorte
+        $user = User::find($userId);
+
+        // Envoyer la notification de retrait de cohorte
+        $user->notify(new UserRemovedFromCohort($cohort));
 
         // Redirection vers la page de la cohorte
         return redirect()->route('cohort.show', $cohort);
