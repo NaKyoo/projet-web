@@ -129,7 +129,6 @@
                         <x-forms.input type="date" name="start_date" :label="__('Début de l\'année')" :messages="$errors->get('start_date')" required />
 
                         <x-forms.input type="date" name="end_date" :label="__('Fin de l\'année')" :messages="$errors->get('end_date')" required />
-
                         <x-forms.dropdown name="school_id" label="Choisissez une école" :messages="$errors->get('school_id')">
                             <option value="">{{ __('Sélectionnez une école') }}</option>
                             @foreach($schools as $id => $name)

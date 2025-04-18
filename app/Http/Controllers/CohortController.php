@@ -107,18 +107,17 @@ class CohortController extends Controller
                 'date',
                 'after_or_equal:start_date',
                 function ($attribute, $value, $fail) use ($request) {
-                    $start = \Carbon\Carbon::parse($request->start_date);
-                    $end = \Carbon\Carbon::parse($value);
-                    $diffInDays = $start->diffInDays($end);
-
-                    // Correspond à une durée entre 2 ans (730 jours) et 3 ans (1095 jours)
-                    if ($diffInDays < 730 || $diffInDays > 1095) {
-                        $fail("La cohorte doit durer entre 2 et 3 ans.");
+                    $startDate = \Carbon\Carbon::parse($request->start_date);
+                    $endDate = \Carbon\Carbon::parse($value);
+                    if ($startDate->diffInDays($endDate) > 366) {
+                        $fail('La durée de la promotion ne peut pas dépasser un an.');
                     }
                 },
             ],
             'school_id' => 'required|exists:schools,id',
         ]);
+
+
 
         // Création de la cohorte avec les données validées
         Cohort::create($validated);
@@ -168,7 +167,18 @@ class CohortController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
+            'end_date' => [
+                'required',
+                'date',
+                'after_or_equal:start_date',
+                function ($attribute, $value, $fail) use ($request) {
+                    $startDate = \Carbon\Carbon::parse($request->start_date);
+                    $endDate = \Carbon\Carbon::parse($value);
+                    if ($startDate->diffInDays($endDate) > 366) {
+                        $fail('La durée de la promotion ne peut pas dépasser un an.');
+                    }
+                },
+            ],
             'school_id' => 'required|exists:schools,id',
         ]);
 
