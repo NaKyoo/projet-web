@@ -105,6 +105,8 @@ npm run dev
 
 Cette section présente les **User Stories** que j’ai prises en charge pour le premier sprint du projet **Coding Tool Box**. Elles couvrent les fondations de la gestion utilisateur et des entités principales.
 
+---
+
 ### 1️⃣ Dashboard Admin – Vue d’ensemble
 
 **En tant qu’** administrateur  
@@ -138,9 +140,16 @@ Cette section présente les **User Stories** que j’ai prises en charge pour le
 
 ✅ **Critères d’acceptation** :
 - Création d’un étudiant avec : nom, prénom, date de naissance, email.
+- **Vérification des champs** :
+    - Le **nom** et le **prénom** doivent contenir uniquement des lettres (validation de type alphabétique).
+    - L'**âge des étudiants** doit être compris entre **17 et 30 ans**.
+    - L'**âge des enseignants** doit être compris entre **25 et 50 ans**.
 - Mot de passe généré automatiquement et envoyé par mail.
 - Modification et suppression via modals avec requêtes AJAX (sans rechargement de page).
 - Association à une promotion au moment de la création/modification.
+- **Système de notifications** :
+    - **Ajout d’un utilisateur à une promotion** : Lorsqu'un utilisateur est ajouté à une promotion, une notification est envoyée.
+    - **Retrait d’un utilisateur d’une promotion** : Lorsqu’un utilisateur est retiré d’une promotion, une notification lui est envoyée pour l’informer de ce retrait.
 
 ---
 
@@ -178,4 +187,19 @@ Cette section présente les **User Stories** que j’ai prises en charge pour le
 - Modification de l’email et du mot de passe.
 - Téléversement d’une photo de profil.
 - Suppression du compte.
+
 ---
+
+### Bonus: Vérification des champs et notifications
+
+- **Validation des champs** :
+    - **Nom et prénom** : Les noms et prénoms des étudiants et enseignants doivent uniquement contenir des lettres (validation alphabétique).
+    - **Âge** :
+        - **Étudiant** : L'âge doit être compris entre **17 et 30 ans**.
+        - **Enseignant** : L'âge doit être compris entre **25 et 50 ans**.
+
+- **Système de notifications** :
+    - Lorsqu'un utilisateur est **ajouté** à une promotion, une notification lui est envoyée pour l’informer de son ajout.
+    - Lorsqu’un utilisateur est **retiré** d’une promotion, une notification lui est également envoyée pour l’informer de son retrait de cette promotion.
+
+--- 
