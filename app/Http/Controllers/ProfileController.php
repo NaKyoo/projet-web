@@ -77,6 +77,7 @@ class ProfileController extends Controller
             }
         }
 
+
         // Changement ou suppression de l'avatar
         if ($request->has('avatar_remove') && $request->avatar_remove == 1) {
             // Si l'avatar doit être supprimé
@@ -87,7 +88,6 @@ class ProfileController extends Controller
 
             $user->avatar = 'metronic/media/avatars/300-2.png'; // Mettre le chemin de l'image par défaut
         } elseif ($request->hasFile('avatar')) {
-            // Si un nouvel avatar est téléchargé
             // Si un avatar existant est présent, on le supprime
             if ($user->avatar) {
                 // Supprimer l'ancien fichier du stockage

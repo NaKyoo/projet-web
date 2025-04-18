@@ -6,6 +6,7 @@ use App\Models\Cohort;
 use App\Models\School;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class DashboardController extends Controller
 {
@@ -21,8 +22,12 @@ class DashboardController extends Controller
         // Récupère le rôle de l'utilisateur actuellement connecté dans l'école
         $userRole = auth()->user()->school()->pivot->role;
 
-        // Récupère toutes les cohortes disponibles
-        $cohorts = Cohort::all();
+        // Récupère toutes les cohortes en fonction de l'année
+        $currentYear = Carbon::now()->year;
+        $cohorts = Cohort::whereYear('start_date', '<=', $currentYear)
+            ->whereYear('end_date', '>=', $currentYear)
+            ->get();
+
 
         // Récupère tous les utilisateurs enregistrés
         $users = User::all();

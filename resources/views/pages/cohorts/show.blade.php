@@ -59,7 +59,6 @@
                                             <td>{{ $cohortStudent->last_name }}</td>
                                             <td>{{ $cohortStudent->first_name }}</td>
                                             <td>{{ \Carbon\Carbon::parse($cohortStudent->birth_date)->format('d/m/Y') }}</td>
-
                                             @if ($userRole === 'admin')
                                                 <td class="cursor-pointer pointer">
                                                     <form method="POST" action="{{ route('cohorts.deleteStudent', ['cohort' => $cohort->id, 'userId' => $cohortStudent->id]) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette promotion ?');">
@@ -70,6 +69,7 @@
                                                         </button>
                                                     </form>
                                                 </td>
+
                                             @endif
                                         </tr>
                                     @endforeach
