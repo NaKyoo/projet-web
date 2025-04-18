@@ -16,7 +16,7 @@
                         <h3 class="card-title">Mes promotions</h3>
                     </div>
                     <div class="card-body">
-                        <div data-datatable="true" data-datatable-page-size="5">
+                        <div data-datatable="true" data-datatable-page-size="100">
                             <div class="scrollable-x-auto">
                                 <table class="table table-border" data-datatable-table="true">
                                     <thead>
@@ -122,13 +122,13 @@
                     <form method="POST" action="{{ route('cohort.store') }}">
                         @csrf
 
-                        <x-forms.input name="name" :label="__('Nom')" required />
+                        <x-forms.input name="name" :label="__('Nom')" :messages="$errors->get('name')" required />
 
-                        <x-forms.input name="description" :label="__('Description')" required />
+                        <x-forms.input name="description" :label="__('Description')" :messages="$errors->get('description')" required />
 
-                        <x-forms.input type="date" name="start_date" :label="__('Début de l\'année')" required />
+                        <x-forms.input type="date" name="start_date" :label="__('Début de l\'année')" :messages="$errors->get('start_date')" required />
 
-                        <x-forms.input type="date" name="end_date" :label="__('Fin de l\'année')" required />
+                        <x-forms.input type="date" name="end_date" :label="__('Fin de l\'année')" :messages="$errors->get('end_date')" required />
 
                         <x-forms.dropdown name="school_id" label="Choisissez une école" :messages="$errors->get('school_id')">
                             <option value="">{{ __('Sélectionnez une école') }}</option>

@@ -49,12 +49,16 @@ class TeacherController extends Controller
 
         // Validation des données envoyées depuis le formulaire
         $validatedData = $request->validate([
-            'last_name' => 'required|string|max:255',
-            'first_name' => 'required|string|max:255',
-            'birth_date' => 'nullable|date',
+            'last_name' => ['required', 'regex:/^[\pL\s\-]+$/u', 'max:255'],
+            'first_name' => ['required', 'regex:/^[\pL\s\-]+$/u', 'max:255'],
+            'birth_date' => ['nullable', 'date', function ($attribute, $value, $fail) {
+                $age = \Carbon\Carbon::parse($value)->age;
+                if ($age < 25 || $age > 50) {
+                    $fail("L'âge de l'enseignant doit être compris entre 25 et 50 ans.");
+                }
+            }],
             'email' => 'required|email|unique:users,email',
             'school_id' => 'required|exists:schools,id',
-
         ]);
 
         // Génère le mdp aléatoirement

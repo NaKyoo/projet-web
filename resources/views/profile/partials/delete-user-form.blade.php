@@ -19,15 +19,11 @@
                     if you still wish continue.
                 </div>
                 <label class="checkbox-group" >
-                    <input id="confirm_delete" class="checkbox checkbox-sm" name="confirm_delete" type="checkbox" value="1">
+                    <input id="confirm_delete" class="checkbox checkbox-sm" name="confirm_delete" type="checkbox" value="1" :messages="$errors->get('confirm_delete')">
                     <span class="checkbox-label">
                     Confirm deleting account
                    </span>
                 </label>
-
-                @error('confirm_delete')
-                <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                @enderror
             </div>
             <div class="flex justify-end gap-2.5">
 

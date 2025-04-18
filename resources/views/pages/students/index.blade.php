@@ -52,6 +52,7 @@
                                                 <td>{{ $student->last_name }}</td>
                                                 <td>{{ $student->first_name }}</td>
                                                 <td>{{ $student->birth_date }}</td>
+
                                                 <td>
                                                     <div class="flex items-center justify-between">
                                                         <a href="#">
@@ -110,7 +111,7 @@
 
                             <x-forms.input name="first_name" :label="__('Prénom')" :messages="$errors->get('first_name')" />
 
-                            <x-forms.input type="date" name="birth_date" :label="__('Date de naissance')" placeholder="" :messages="$errors->get('email')" />
+                            <x-forms.input type="date" name="birth_date" :label="__('Date de naissance')" placeholder="" :messages="$errors->get('birth_date')" />
 
                             <x-forms.input type="email" name="email" :label="__('Email')" :messages="$errors->get('email')" />
 

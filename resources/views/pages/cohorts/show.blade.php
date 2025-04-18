@@ -27,7 +27,7 @@
                         <h3 class="card-title">Etudiants</h3>
                     </div>
                     <div class="card-body">
-                        <div data-datatable="true" data-datatable-page-size="31">
+                        <div data-datatable="true" data-datatable-page-size="40">
                             <div class="scrollable-x-auto">
                                 <table class="table table-border" data-datatable-table="true">
                                     <thead>

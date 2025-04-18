@@ -8,6 +8,7 @@ use App\Models\UserSchool;
 use App\Notifications\SendPasswordNotification;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -49,12 +50,16 @@ class StudentController extends Controller
 
         // Validation des données du formulaire
         $validatedData = $request->validate([
-            'last_name' => 'required|string|max:255',
-            'first_name' => 'required|string|max:255',
-            'birth_date' => 'nullable|date',
+            'last_name' => ['required', 'regex:/^[\pL\s\-]+$/u', 'max:255'],
+            'first_name' => ['required', 'regex:/^[\pL\s\-]+$/u', 'max:255'],
+            'birth_date' => ['nullable', 'date', function ($attribute, $value, $fail) {
+                $age = Carbon::parse($value)->age;
+                if ($age < 17 || $age > 30) {
+                    $fail('L\'âge doit être compris entre 17 et 30 ans.');
+                }
+            }],
             'email' => 'required|email|unique:users,email',
             'school_id' => 'required|exists:schools,id',
-
         ]);
 
 
@@ -126,9 +131,14 @@ class StudentController extends Controller
 
         // Validation des données à jour
         $validated = $request->validate([
-            'last_name' => 'required|string|max:255',
-            'first_name' => 'required|string|max:255',
-            'birth_date' => 'nullable|date',
+            'last_name' => ['required', 'regex:/^[\pL\s\-]+$/u', 'max:255'],
+            'first_name' => ['required', 'regex:/^[\pL\s\-]+$/u', 'max:255'],
+            'birth_date' => ['nullable', 'date', function ($attribute, $value, $fail) {
+                $age = Carbon::parse($value)->age;
+                if ($age < 17 || $age > 30) {
+                    $fail('L\'âge doit être compris entre 17 et 30 ans.');
+                }
+            }],
             'email' => 'required|email|unique:users,email,' . $id,
             'role' => 'required|in:student,teacher',
         ]);

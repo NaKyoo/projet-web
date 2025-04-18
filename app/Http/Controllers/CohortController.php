@@ -100,7 +100,19 @@ class CohortController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:500',
             'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
+            'end_date' => [
+                'required',
+                'date',
+                'after_or_equal:start_date',
+                function ($attribute, $value, $fail) use ($request) {
+                    $start = \Carbon\Carbon::parse($request->start_date);
+                    $end = \Carbon\Carbon::parse($value);
+
+                    if ($start->diffInYears($end) !== 3 || $start->copy()->addYears(3)->ne($end)) {
+                        $fail("La promotion doit durer exactement 3 ans.");
+                    }
+                },
+            ],
             'school_id' => 'required|exists:schools,id',
         ]);
 
